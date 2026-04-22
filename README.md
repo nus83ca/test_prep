@@ -23,10 +23,28 @@ Things you may want to cover:
 
 * ...
 
+## Useful Docker Commands
 
-# To start the stack from now on:
+First time or after code changes:
 
-docker compose up --build        # first time or after code changes
-docker compose up -d             # subsequent starts (detached)
-docker compose down              # stop
-docker compose down -v           # stop + wipe DB volume
+```bash
+docker compose up --build
+```
+
+Subsequent starts (detached):
+
+```bash
+docker compose up -d
+```
+
+Stop:
+
+```bash
+docker compose down
+```
+
+Stop + wipe DB volume:
+
+```bash
+docker compose down -v
+```
