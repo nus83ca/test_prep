@@ -1,0 +1,46 @@
+services:
+  web:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    environment:
+      RAILS_ENV: development
+      DB_HOST: db
+      DB_NAME: basic_development
+      DB_TEST_NAME: basic_test
+      DB_PROD_NAME: basic_production
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_PORT: 5432
+    container_name: basic_web_app
+    working_dir: /basic_app
+    command: bash -lc "bundle check || bundle install && rm -f tmp/pids/server.pid && bin/rails db:prepare && bin/rails server -b 0.0.0.0 -p 3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/basic_app
+
+  db:
+    image: postgres:15
+    container_name: basic_postgres_db
+    restart: always
+    environment:
+      POSTGRES_DB: basic_development
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d basic_development"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 5s
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
