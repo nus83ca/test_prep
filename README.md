@@ -1,31 +1,24 @@
-# README
+# Test Prep Rails App
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Rails 7.1 app running with Docker and PostgreSQL.
 
-Things you may want to cover:
+## Build Environment
 
-* Ruby version
+This project is pinned to:
 
-* System dependencies
+- Ruby `3.1.4-p223`
+- Bundler `2.3.26`
+- Rake `13.0.6`
 
-* Configuration
+Where these are defined:
 
-* Database creation
+- Docker base image and Bundler install in `Dockerfile`
+- Ruby and Rake gem constraints in `Gemfile`
+- Locked Ruby/Bundler metadata and gem versions in `Gemfile.lock`
 
-* Database initialization
+## Run with Docker
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-## Useful Docker Commands
-
-First time or after code changes:
+First time or after dependency/code changes:
 
 ```bash
 docker compose up --build
@@ -37,14 +30,24 @@ Subsequent starts (detached):
 docker compose up -d
 ```
 
-Stop:
+Stop services:
 
 ```bash
 docker compose down
 ```
 
-Stop + wipe DB volume:
+Stop and remove volumes (including DB data):
 
 ```bash
 docker compose down -v
+```
+
+## Quick Version Checks
+
+Check runtime versions inside the app container:
+
+```bash
+docker compose run --rm web ruby -v
+docker compose run --rm web bundle -v
+docker compose run --rm web bundle exec rake -V
 ```
